@@ -21,6 +21,54 @@ let letter;
 let mistake;
 let hits;
 
+const endGame = () => {
+    document.removeEventListener('keydown', letterEvent)
+    startButton.style.display = 'block'
+}
+
+const correctLetter = letter => {
+    const { children } = wordContainer;
+    for(let i = 0; i < children.length; i++) {
+        if(children[i].innerHTML === letter) {
+            children[i].classList.toggle('hidden')
+            hits++
+        }
+    }
+    if(hits === selectedWord.length) endGame()
+}
+
+const letterInput = letter => {
+    if(selectedWord.includes(letter)) {
+        correctLetter(letter);
+    } else {
+
+    }
+}
+
+
+const letterEvent = event => {
+    let newLetter = event.key.toUpperCase()
+    if(newLetter.match(/^[a-zñ]$/i) && !usedLetters.includes(newLetter))
+        letterInput(newLetter)
+}   
+
+
+const selectRandomWord = () => {
+    let word = words[Math.floor((Math.random() * words.length))].toUpperCase()
+    selectedWord.split('')
+}
+
+const drawWord = () => {
+    selectedWord.forEach(letter => {
+        const letterElement = document.createElement('span')
+        letterElement.innerHTML = letter.toUpperCase()
+        letterElement.classList.add('letter')
+        letterElement.classList.add('hidden')
+        wordContainer.appendChild(letterElement)
+        
+    });
+}
+
 const startGame = () => {
     letter = []
     mistake = 0
@@ -29,6 +77,9 @@ const startGame = () => {
     usedLetter.innerHTML = ''
     startButton.style.display = 'none'
     drawHangMan()
+    selectRandomWord()
+    drawWord()
+    document.addEventListener('keydown', letterEvent)
 }
 
 startButton.addEventListener('click', startGame)
