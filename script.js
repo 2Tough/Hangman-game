@@ -3,7 +3,7 @@ const startButton = document.getElementById('startButton')
 const usedLetter = document.getElementById('usedLetters')
 
 const canvas = document.getElementById('canvas')
-const ctx = document.getContext('2d')
+const ctx = canvas.getContext('2d')
 ctx.canvas.width = 0
 ctx.canvas.height = 0
 
@@ -16,12 +16,10 @@ const bodyParts = [
     [5,3,1,1],
 ]
 
-let selectedWord
-let letter
-let mistake
-let hits
-
-startButton.addEventListener('click', startGame)
+let selectedWord;
+let letter;
+let mistake;
+let hits;
 
 const startGame = () => {
     letter = []
@@ -30,4 +28,19 @@ const startGame = () => {
     wordContainer.innerHTML = ''
     usedLetter.innerHTML = ''
     startButton.style.display = 'none'
+    drawHangMan()
+}
+
+startButton.addEventListener('click', startGame)
+
+const drawHangMan = () => {
+    ctx.canvas.width = 120
+    ctx.canvas.height = 160
+    ctx.scale(20, 20)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#d95d39'
+    ctx.fillRect(0, 7, 4, 1)
+    ctx.fillRect(1, 0, 1, 8)
+    ctx.fillRect(2, 0, 3, 1)
+    ctx.fillRect(4, 1, 1, 1)
 }
