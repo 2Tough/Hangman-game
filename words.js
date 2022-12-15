@@ -1,1 +1,3 @@
 const words = ['ride', 'false', 'corruption', 'cutting', 'sculpture', 'sensitive', 'dangerous', 'Koran', 'fade', 'frown', 'attraction', 'virgin', 'rotation', 'tiptoe', 'belief', 'applaud', 'quit', 'radiation', 'royalty', 'opposed', 'station', 'orientation', 'captivate', 'dark', 'curve', 'colon', 'imagine', 'lay', 'profession', 'demand', 'show', 'time', 'brain', 'suggest', 'fabricate', 'diameter', 'biography', 'tool', 'shatter', 'demonstrate', 'young', 'admit', 'pole', 'problem', 'mushroom', 'bedroom', 'crude', 'survivor', 'bake', 'material', 'assume', 'name', 'property']
+
+export default words

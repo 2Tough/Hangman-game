@@ -1,6 +1,7 @@
 const wordContainer = document.getElementById('wordContainer')
 const startButton = document.getElementById('startButton')
 const usedLetter = document.getElementById('usedLetters')
+import words from 'words'
 
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
@@ -20,6 +21,21 @@ let selectedWord;
 let letter;
 let mistake;
 let hits;
+
+const addLetter = letter => {
+    const letterElement = document.createElement('span')
+    letterElement.innerHTML = letter.toUpperCase()
+    usedLetter.appendChild(letterElement)
+}
+
+const addBodyParts = bodyPart => {
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(...bodyPart)
+}
+
+const wrongLetter = () => {
+    addBody(addBodyParts[mistake]);
+} 
 
 const endGame = () => {
     document.removeEventListener('keydown', letterEvent)
@@ -41,8 +57,9 @@ const letterInput = letter => {
     if(selectedWord.includes(letter)) {
         correctLetter(letter);
     } else {
-
+        wrongLetter()
     }
+    addLetter()
 }
 
 
