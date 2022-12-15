@@ -1,158 +1,228 @@
-const wordContainer = document.getElementById('wordContainer');
-const startButton = document.getElementById('startButton');
-const usedLettersElement = document.getElementById('usedLetters');
-const easy = document.getElementById('easy')
-const medium = document.getElementById('medium')
-const hard = document.getElementById('hard')
+const wordContainer = document.getElementById("wordContainer");
+const startButton = document.getElementById("startButton");
+const usedLettersElement = document.getElementById("usedLetters");
+const easy = document.getElementById("easy");
+const medium = document.getElementById("medium");
+const hard = document.getElementById("hard");
+const reset = document.getElementById('reset')
 
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
-ctx.canvas.width  = 0;
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+ctx.canvas.width = 0;
 ctx.canvas.height = 0;
 
-
-let words = ['ride', 'false', 'corruption', 'cutting', 
-'sculpture', 'sensitive', 'dangerous', 'Koran', 'fade', 'frown', 
-'attraction', 'virgin', 'rotation', 'tiptoe', 'belief', 'applaud',
-'quit', 'radiation', 'royalty', 'opposed', 'station', 'orientation',
-'captivate', 'dark', 'curve', 'colon', 'imagine', 'lay', 'profession',
-'demand', 'show', 'time', 'brain', 'suggest', 'fabricate', 'diameter',
-'biography', 'tool', 'shatter', 'demonstrate', 'young', 'admit', 'pole', 
-'problem', 'mushroom', 'bedroom', 'crude', 'survivor', 'bake', 'material', 
-'assume', 'name', 'property']
+let words = [
+  "ride",
+  "false",
+  "corruption",
+  "cutting",
+  "sculpture",
+  "sensitive",
+  "dangerous",
+  "Koran",
+  "fade",
+  "frown",
+  "attraction",
+  "virgin",
+  "rotation",
+  "tiptoe",
+  "belief",
+  "applaud",
+  "quit",
+  "radiation",
+  "royalty",
+  "opposed",
+  "station",
+  "orientation",
+  "captivate",
+  "dark",
+  "curve",
+  "colon",
+  "imagine",
+  "lay",
+  "profession",
+  "demand",
+  "show",
+  "time",
+  "brain",
+  "suggest",
+  "fabricate",
+  "diameter",
+  "biography",
+  "tool",
+  "shatter",
+  "demonstrate",
+  "young",
+  "admit",
+  "pole",
+  "problem",
+  "mushroom",
+  "bedroom",
+  "crude",
+  "survivor",
+  "bake",
+  "material",
+  "assume",
+  "name",
+  "property",
+];
 
 const bodyParts = [
-    [4,2,1,1],
-    [4,3,1,2],
-    [3,5,1,1],
-    [5,5,1,1],
-    [3,3,1,1],
-    [5,3,1,1],
-]
+  [4, 2, 1, 1],
+  [4, 3, 1, 2],
+  [3, 5, 1, 1],
+  [5, 5, 1, 1],
+  [3, 3, 1, 1],
+  [5, 3, 1, 1],
+];
 
 let selectedWord;
 let letter;
 let mistake;
 let hits;
 
-
-easy.addEventListener('click', function() {
-    console.log(words.length)
-   let easyArray = []
-   
-    for(let i = 0 ; i < words.length ; i++) {
-    if (words[i].length <=4){
-        easyArray.push(words[i],)
-            }
-   }
-   words = easyArray
-   console.log(easyArray)
+reset.addEventListener('click', () => {
+    window.location.reload();
 })
 
-medium.addEventListener('click', function() {
-    console.log(words.length)
-   let easyArray = []
-   
-    for(let i = 0 ; i < words.length ; i++) {
-    if (words[i].length == 6){
-        easyArray.push(words[i],)
+easy.addEventListener("click", function () {
+  console.log(words.length);
+  let easyArray = [];
+
+  for (let i = 0; i < words.length; i++) {
+    if (words[i].length <= 4) {
+      easyArray.push(words[i]);
     }
-}
-words = easyArray
-console.log(easyArray)
-})
+  }
+  words = easyArray;
+  console.log(easyArray);
 
+  easy.style.display = "none";
+  medium.style.display = "none";
+  hard.style.display = "none";
+});
 
-const addLetter = letter => {
-    const letterElement = document.createElement('span');
-    letterElement.innerHTML = letter.toUpperCase();
-    usedLettersElement.appendChild(letterElement);
-}
+medium.addEventListener("click", function () {
+  console.log(words.length);
+  let easyArray = [];
 
-const addBodyPart = bodyPart => {
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(...bodyPart);
+  for (let i = 0; i < words.length; i++) {
+    if (words[i].length == 6) {
+      easyArray.push(words[i]);
+    }
+  }
+  words = easyArray;
+  console.log(easyArray);
+  easy.style.display = "none";
+  medium.style.display = "none";
+  hard.style.display = "none";
+});
+
+hard.addEventListener("click", function () {
+  console.log(words.length);
+  let easyArray = [];
+
+  for (let i = 0; i < words.length; i++) {
+    if (words[i].length > 8) {
+      easyArray.push(words[i]);
+    }
+  }
+  words = easyArray;
+  console.log(easyArray);
+  easy.style.display = "none";
+  medium.style.display = "none";
+  hard.style.display = "none";
+});
+
+const addLetter = (letter) => {
+  const letterElement = document.createElement("span");
+  letterElement.innerHTML = letter.toUpperCase();
+  usedLettersElement.appendChild(letterElement);
+};
+
+const addBodyPart = (bodyPart) => {
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(...bodyPart);
 };
 
 const wrongLetter = () => {
-    addBodyPart(bodyParts[mistakes]);
-    mistakes++;
-    if(mistakes === bodyParts.length) endGame();
-}
-
-const endGame = () => {
-    document.removeEventListener('keydown', letterEvent);
-    startButton.style.display = 'block';
-}
-
-const correctLetter = letter => {
-    const { children } =  wordContainer;
-    for(let i = 0; i < children.length; i++) {
-        if(children[i].innerHTML === letter) {
-            children[i].classList.toggle('hidden');
-            hits++;
-        }
-    }
-    if(hits === selectedWord.length) endGame();
-}
-
-const letterInput = letter => {
-    
-    if(selectedWord.includes(letter)) {
-        correctLetter(letter);
-    } else {
-        wrongLetter();
-    }
-    addLetter(letter);
-    usedLetters.push(letter);
+  addBodyPart(bodyParts[mistakes]);
+  mistakes++;
+  if (mistakes === bodyParts.length) endGame();
 };
 
-const letterEvent = event => {
-    let newLetter = event.key.toUpperCase();
-    if(newLetter.match(/^[a-zñ]$/i) && !usedLetters.includes(newLetter)) {
-        letterInput(newLetter);
-    };
+const endGame = () => {
+  document.removeEventListener("keydown", letterEvent);
+  startButton.style.display = "block";
+};
+
+const correctLetter = (letter) => {
+  const { children } = wordContainer;
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].innerHTML === letter) {
+      children[i].classList.toggle("hidden");
+      hits++;
+    }
+  }
+  if (hits === selectedWord.length) endGame();
+};
+
+const letterInput = (letter) => {
+  if (selectedWord.includes(letter)) {
+    correctLetter(letter);
+  } else {
+    wrongLetter();
+  }
+  addLetter(letter);
+  usedLetters.push(letter);
+};
+
+const letterEvent = (event) => {
+  let newLetter = event.key.toUpperCase();
+  if (newLetter.match(/^[a-zñ]$/i) && !usedLetters.includes(newLetter)) {
+    letterInput(newLetter);
+  }
 };
 
 const drawWord = () => {
-    selectedWord.forEach(letter => {
-        const letterElement = document.createElement('span');
-        letterElement.innerHTML = letter.toUpperCase();
-        letterElement.classList.add('letter');
-        letterElement.classList.add('hidden');
-        wordContainer.appendChild(letterElement);
-    });
+  selectedWord.forEach((letter) => {
+    const letterElement = document.createElement("span");
+    letterElement.innerHTML = letter.toUpperCase();
+    letterElement.classList.add("letter");
+    letterElement.classList.add("hidden");
+    wordContainer.appendChild(letterElement);
+  });
 };
 
 let selectRandomWord = () => {
-    let word = words[Math.floor((Math.random() * words.length))].toUpperCase();
-    selectedWord = word.split('');
+  let word = words[Math.floor(Math.random() * words.length)].toUpperCase();
+  selectedWord = word.split("");
 };
 
 const drawHangMan = () => {
-    ctx.canvas.width  = 120;
-    ctx.canvas.height = 160;
-    ctx.scale(20, 20);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#d95d39';
-    ctx.fillRect(0, 7, 4, 1);
-    ctx.fillRect(1, 0, 1, 8);
-    ctx.fillRect(2, 0, 3, 1);
-    ctx.fillRect(4, 1, 1, 1);
+  ctx.canvas.width = 120;
+  ctx.canvas.height = 160;
+  ctx.scale(20, 20);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#d95d39";
+  ctx.fillRect(0, 7, 4, 1);
+  ctx.fillRect(1, 0, 1, 8);
+  ctx.fillRect(2, 0, 3, 1);
+  ctx.fillRect(4, 1, 1, 1);
 };
 
 const startGame = () => {
-    console.log(words)
-    usedLetters = [];
-    mistakes = 0;
-    hits = 0;
-    wordContainer.innerHTML = '';
-    usedLettersElement.innerHTML = '';
-    startButton.style.display = 'none';
-    drawHangMan();
-    selectRandomWord();
-    drawWord();
-    document.addEventListener('keydown', letterEvent);
+  console.log(words);
+  usedLetters = [];
+  mistakes = 0;
+  hits = 0;
+  wordContainer.innerHTML = "";
+  usedLettersElement.innerHTML = "";
+  startButton.style.display = "none";
+  drawHangMan();
+  selectRandomWord();
+  drawWord();
+  document.addEventListener("keydown", letterEvent);
 };
 
-startButton.addEventListener('click', startGame);
+startButton.addEventListener("click", startGame);
