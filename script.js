@@ -5,6 +5,7 @@ const easy = document.getElementById("easy");
 const medium = document.getElementById("medium");
 const hard = document.getElementById("hard");
 const reset = document.getElementById('reset')
+const setDifficulty = document.getElementById('setDifficulty')
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -100,6 +101,7 @@ easy.addEventListener("click", function () {
   easy.style.display = "none";
   medium.style.display = "none";
   hard.style.display = "none";
+  setDifficulty.style.display = "none";
 });
 
 medium.addEventListener("click", function () {
@@ -116,6 +118,7 @@ medium.addEventListener("click", function () {
   easy.style.display = "none";
   medium.style.display = "none";
   hard.style.display = "none";
+  setDifficulty.style.display = "none";
 });
 
 hard.addEventListener("click", function () {
@@ -132,6 +135,7 @@ hard.addEventListener("click", function () {
   easy.style.display = "none";
   medium.style.display = "none";
   hard.style.display = "none";
+  setDifficulty.style.display = "none";
 });
 
 const addLetter = (letter) => {
